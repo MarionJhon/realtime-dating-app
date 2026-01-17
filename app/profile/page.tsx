@@ -41,7 +41,6 @@ const ProfilePage = () => {
     async function loadProfile() {
       try {
         const profileData = await getCurrentUserProfile();
-        console.log(profileData);
         if (profileData) {
           setProfile(profileData);
         } else {
