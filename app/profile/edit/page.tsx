@@ -97,9 +97,8 @@ const EditProfilePage = () => {
             Update your profile information
           </p>
         </header>
-        <div className="max-x-2xl mx-auto">
+        <div className="max-w-2xl mx-auto">
           <form
-            action=""
             className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8"
           >
             <div className="mb-8">
@@ -201,7 +200,7 @@ const EditProfilePage = () => {
                   htmlFor="birthdate"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                 >
-                  Username *
+                  Birthdate *
                 </label>
                 <input
                   type="date"
