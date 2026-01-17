@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "create-fake-profile": "tsx scripts/create-fake-profile.ts"
+    "create-fake-profiles": "tsx scripts/create-fake-profiles.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^10.2.0",
