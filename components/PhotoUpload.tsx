@@ -57,12 +57,18 @@ export const PhotoUpload = ({
         className="hidden"
         onChange={handleFileSelect}
       />
+      {error && (
+        <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+          {error}
+        </div>
+      )}
       <button
         type="button"
         onClick={handleClick}
         disabled={uploading}
         className="absolute bottom-0 right-0 bg-pink-500 p-2 rounded-full hover:bg-pink-600 transition-colors duration-200"
         title="Change Photo"
+        aria-label="Change photo"
       >
         {uploading ? (
           <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
