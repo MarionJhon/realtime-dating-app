@@ -17,7 +17,7 @@ export interface UserProfile {
   location_lat?: number;
   location_lng?: number;
   last_active: string;
-  is_active: boolean;
+  is_verified: boolean;
   is_online: boolean;
   created_at: string;
   updated_at: string;
