@@ -53,8 +53,10 @@ const MatchNotification = ({
                 It's a Match 🎉
               </h3>
               <button
+                type="button"
                 onClick={handleClose}
                 className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                aria-label="Close match notification"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -65,12 +67,14 @@ const MatchNotification = ({
             </p>
             <div className="flex space-x-2">
               <button
+                type="button"
                 onClick={handleStartChat}
                 className="flex-1 bg-linear-to-r from-pink-500 to-red-500 text-white text-sm font-semibold py-2 px-4 rounded-full hover:from-pink-600 hover:to-red-600 transition-all duration-200"
               >
                 Start Chat
               </button>
               <button
+                type="button"
                 onClick={handleClose}
                 className="flex-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-semibold py-2 px-4 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-200"
               >
