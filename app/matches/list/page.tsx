@@ -3,19 +3,20 @@ import { UserProfile } from "@/app/profile/page";
 import { useEffect, useState } from "react";
 import { getUserMatches } from "@/lib/action/matches";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const MatchesListpage = () => {
   const [matches, setMatches] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
   useEffect(() => {
     async function loadMatches() {
       try {
         const userMatches = await getUserMatches();
-        console.log(userMatches);
         setMatches(userMatches);
       } catch (error) {
-        setError("Failed load matches.");
+        setError("Failed to load matches.");
       } finally {
         setLoading(false);
       }
@@ -53,6 +54,40 @@ const MatchesListpage = () => {
     );
   }
 
+  if (error) {
+    return (
+      <div className="min-h-screen bg-linear-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+        <div className="text-center max-w-md">
+          <div className="mb-4">
+            <svg
+              className="w-16 h-16 mx-auto text-red-500 dark:text-red-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+          </div>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+            Something went wrong
+          </h2>
+          <p className="text-red-600 dark:text-red-400 mb-6">{error}</p>
+          <button
+            onClick={() => router.refresh()}
+            className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-linear-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 py-8">
@@ -85,9 +120,9 @@ const MatchesListpage = () => {
         ) : (
           <div className="max-w-2xl mx-auto">
             <div className="grid gap-4">
-              {matches.map((match, key) => (
+              {matches.map((match) => (
                 <Link
-                  key={key}
+                  key={match.id}
                   href={`/chat/${match.id}`}
                   className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
                 >
