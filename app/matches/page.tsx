@@ -34,7 +34,7 @@ const MatchesPage = () => {
   const currentPotentialMatch = potentialMatches[currentIndex];
 
   function handlePass() {
-    if (currentIndex < potentialMatches.length - 1) {
+    if (currentIndex < potentialMatches.length) {
       setCurrentIndex((prev) => prev + 1);
     }
   }
@@ -57,9 +57,17 @@ const MatchesPage = () => {
     }
   }
 
-  function handleCloseNotification() {}
+  function handleCloseNotification() {
+    setShowMatchNotification(false);
+    setMatchedUser(null);
+  }
 
-  function handleStartChat() {}
+  function handleStartChat() {
+    if (!matchedUser) return;
+    router.push(`/chat/${matchedUser.id}`);
+    setShowMatchNotification(false);
+    setMatchedUser(null);
+  }
 
   if (loading) {
     return (
@@ -94,7 +102,7 @@ const MatchesPage = () => {
             Refresh
           </button>
         </div>
-          {showMatchNotification && matchedUser && (
+        {showMatchNotification && matchedUser && (
           <MatchNotification
             match={matchedUser}
             onClose={handleCloseNotification}
