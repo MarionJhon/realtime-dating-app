@@ -36,7 +36,7 @@ const MatchCard = ({ user }: { user: UserProfile }) => {
             <div className="flex items-end justify-between">
               <div>
                 <h2 className="text-2xl font-bold mb-1">
-                  {user?.full_name}, {calculateAge(user.birthdate)}
+                  {user.full_name}, {calculateAge(user.birthdate)}
                 </h2>
                 <p className="text-sm opacity-90 mb-2">@{user.username}</p>
                 <p className="text-sm leading-relaxed">{user.bio}</p>
