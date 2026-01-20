@@ -1,0 +1,162 @@
+"use client";
+import { UserProfile } from "@/app/profile/page";
+import { useEffect, useState } from "react";
+import { getUserMatches } from "@/lib/action/matches";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+const MatchesListpage = () => {
+  const [matches, setMatches] = useState<UserProfile[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  useEffect(() => {
+    async function loadMatches() {
+      try {
+        const userMatches = await getUserMatches();
+        setMatches(userMatches);
+      } catch (error) {
+        setError("Failed to load matches.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadMatches();
+  }, []);
+
+  function calculateAge(birthdate: string) {
+    const today = new Date();
+    const birthDate = new Date(birthdate);
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+    return age;
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-linear-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500 mx-auto"></div>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">
+            Loading your matches...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-linear-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+        <div className="text-center max-w-md">
+          <div className="mb-4">
+            <svg
+              className="w-16 h-16 mx-auto text-red-500 dark:text-red-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+          </div>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+            Something went wrong
+          </h2>
+          <p className="text-red-600 dark:text-red-400 mb-6">{error}</p>
+          <button
+            onClick={() => router.refresh()}
+            className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-linear-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800">
+      <div className="container mx-auto px-4 py-8">
+        <header className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            Your Matches
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400">
+            {matches.length} match{matches.length !== 1 ? "es" : ""}
+          </p>
+        </header>
+        {matches.length === 0 ? (
+          <div className="text-center max-w-md mx-auto p-8">
+            <div className="w-24 h-24 bg-linear-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
+              <span className="text-4xl">💕</span>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              No matches yet
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              Start swiping to find your perfect match!
+            </p>
+            <Link
+              href="/matches"
+              className="bg-linear-to-r from-pink-500 to-red-500 text-white font-semibold py-3 px-6 rounded-full hover:from-pink-600 hover:to-red-600 transition-all duration-200"
+            >
+              Start Swiping
+            </Link>
+          </div>
+        ) : (
+          <div className="max-w-2xl mx-auto">
+            <div className="grid gap-4">
+              {matches.map((match) => (
+                <Link
+                  key={match.id}
+                  href={`/chat/${match.id}`}
+                  className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="relative w-16 h-16 rounded-full overflow-hidden shrink-0">
+                      <img
+                        src={match.avatar_url}
+                        alt={match.full_name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        {match.full_name}, {calculateAge(match.birthdate)}
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                        @{match.username}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                        {match.bio}
+                      </p>
+                    </div>
+                    <div className="shrink-0">
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default MatchesListpage;
