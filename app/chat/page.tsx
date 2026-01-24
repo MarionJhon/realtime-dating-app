@@ -74,7 +74,7 @@ const ChatPage = () => {
     <div className="min-h-screen bg-linear-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-8">
-          <h1 className="text-3xl font bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Messages
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
@@ -111,7 +111,7 @@ const ChatPage = () => {
                   href={`/chat/${chat.id}`}
                   className="block hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
                 >
-                  <div className="flex items-center p-6 border-b border-gray-200 dark:boder-gray-700 last:border-b-0">
+                  <div className="flex items-center p-6 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
                     <div className="relative w-16 h-16 rounded-full overflow-hidden shrink-0">
                       <img
                         src={chat.user.avatar_url}
@@ -119,7 +119,7 @@ const ChatPage = () => {
                         className="w-full h-full object-cover"
                       />
                       {chat.unreadCount > 0 && (
-                        <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-6 h-6 items-center justify-center font-bold">
+                        <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
                           {chat.unreadCount}
                         </div>
                       )}
