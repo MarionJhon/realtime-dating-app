@@ -41,8 +41,6 @@ const ChatConversationPage = () => {
     if (user) {
       loadUserData();
     }
-
-    loadUserData();
   }, [userId, router, user]);
 
   if (loading) {
@@ -69,7 +67,7 @@ const ChatConversationPage = () => {
             User not found
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            The user you're looking for doesn't exist or you dont't have
+            The user you're looking for doesn't exist or you don't have
             permision to chat with them
           </p>
           <button
