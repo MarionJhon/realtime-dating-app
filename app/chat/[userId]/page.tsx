@@ -68,7 +68,7 @@ const ChatConversationPage = () => {
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
             The user you're looking for doesn't exist or you don't have
-            permision to chat with them
+            permission to chat with them
           </p>
           <button
             onClick={() => router.push("/chat")}
