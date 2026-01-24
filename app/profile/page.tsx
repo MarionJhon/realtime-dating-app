@@ -3,6 +3,7 @@ import { getCurrentUserProfile } from "@/lib/action/profile";
 import { EditIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { calculateAge } from "@/lib/helpers/calculate-age";
 
 export interface UserProfile {
   id: string;
@@ -57,22 +58,6 @@ const ProfilePage = () => {
     loadProfile();
   }, []);
 
-  function calculateAge(birthdate: string) {
-    const today = new Date();
-    const birthDate = new Date(birthdate);
-
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-
-    if (
-      monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < birthDate.getDate())
-    ) {
-      age--;
-    }
-    return age;
-  }
-
   if (loading) {
     return (
       <div className="min-h-screen bg-linear-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
@@ -86,29 +71,29 @@ const ProfilePage = () => {
     );
   }
 
-    if (error || !profile) {
-      return (
-        <div className="min-h-screen bg-linear-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
-          <div className="text-center max-w-md mx-auto p-8">
-            <div className="w-24 h-24 bg-linear-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
-              <span className="text-4xl">❌</span>
-            </div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Profile not found
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
-              {error || "Unable to load your profile. Please try again."}
-            </p>
-            <button
-              onClick={() => window.location.reload()}
-              className="bg-linear-to-r from-pink-500 to-red-500 text-white font-semibold py-3 px-6 rounded-full hover:from-pink-600 hover:to-red-600 transition-all duration-200"
-            >
-              Retry
-            </button>
+  if (error || !profile) {
+    return (
+      <div className="min-h-screen bg-linear-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto p-8">
+          <div className="w-24 h-24 bg-linear-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span className="text-4xl">❌</span>
           </div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            Profile not found
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            {error || "Unable to load your profile. Please try again."}
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-linear-to-r from-pink-500 to-red-500 text-white font-semibold py-3 px-6 rounded-full hover:from-pink-600 hover:to-red-600 transition-all duration-200"
+          >
+            Retry
+          </button>
         </div>
-      );
-    }
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800">
