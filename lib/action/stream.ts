@@ -162,7 +162,7 @@ export const createVideoCall = async (otherUserId: string) => {
 
   const callId = `call_${Math.abs(hash).toString(36)}`;
 
-  return { callId, CallType: "default" };
+  return { callId, callType: "default" };
 };
 
 export const getStreamVideoToken = async () => {
