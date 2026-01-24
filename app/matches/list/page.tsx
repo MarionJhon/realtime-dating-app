@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getUserMatches } from "@/lib/action/matches";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { calculateAge } from "@/lib/helpers/calculate-age";
 
 const MatchesListpage = () => {
   const [matches, setMatches] = useState<UserProfile[]>([]);
@@ -24,22 +25,6 @@ const MatchesListpage = () => {
 
     loadMatches();
   }, []);
-
-  function calculateAge(birthdate: string) {
-    const today = new Date();
-    const birthDate = new Date(birthdate);
-
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-
-    if (
-      monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < birthDate.getDate())
-    ) {
-      age--;
-    }
-    return age;
-  }
 
   if (loading) {
     return (
